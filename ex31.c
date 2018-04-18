@@ -111,7 +111,7 @@ int main(int argc, char *argv[]) {
 
         }
         if (flagSimilar == 1) {
-            printf("the files are the same \n");
+            printf("the files are the same! \n");
             closeFiles(file1, file2);
             return 3;
         }else if(flagSimilar == 2){

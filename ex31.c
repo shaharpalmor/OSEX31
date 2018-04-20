@@ -3,6 +3,11 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
+
+#define STDERR 2
+#define ERROR "Error in system call\n"
+#define SIZEERROR 21
 
 /**
  * check if the letters are the same but one is upper case and the other is lower case
@@ -55,14 +60,17 @@ int main(int argc, char *argv[]) {
         file1 = open(argv[1], O_RDWR);
         file2 = open(argv[2], O_RDWR);
         if (file1 == -1 || file2 == -1) {
-            fprintf(stderr, "Error in system call");
+            write(STDERR, ERROR, SIZEERROR);
+            exit(-1);
         } else { // success in opening the two files
             do {
                 result1 = read(file1, letter1, 1);
                 result2 = read(file2, letter2, 1);
 
-                if (result1 == -1 || result2 == -1)
-                    fprintf(stderr, "Error in system call");
+                if (result1 == -1 || result2 == -1) {
+                    write(STDERR, ERROR, SIZEERROR);
+                    exit(-1);
+                }
 
                 if (*letter1 == *letter2) {
                     continue;
@@ -75,7 +83,7 @@ int main(int argc, char *argv[]) {
                             while (*letter1 == ' '|| *letter1 == '\n') {
                                 result1 = read(file1, letter1, 1);
                                 if (result1 == -1) {
-                                    fprintf(stderr, "Error in system call");
+                                    write(STDERR, ERROR, SIZEERROR);
                                 }
                             }
                             if (*letter1 == *letter2) {
@@ -91,7 +99,7 @@ int main(int argc, char *argv[]) {
                             while (*letter2 == ' '|| *letter2 == '\n') {
                                 result2 = read(file2, letter2, 1);
                                 if (result2 == -1) {
-                                    fprintf(stderr, "Error in system call");
+                                    write(STDERR, ERROR, SIZEERROR);
                                 }
                             }
                             if (*letter1 == *letter2) {
